@@ -1,0 +1,1 @@
+# django-from-scratch
