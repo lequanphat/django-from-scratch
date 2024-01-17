@@ -7,10 +7,8 @@ import json
 class GetAllProduct(APIView):
 
     def get(self, request):
-        person = Product.objects.all()
-        print(person)
-        serializer = ProductSerializer(person, many=True)
-        print(serializer)
+        products = Product.objects.all()
+        serializer = ProductSerializer(products, many=True)
         # response
         return JsonResponse(serializer.data, safe=False)
 
@@ -20,7 +18,9 @@ class CreateProduct(APIView):
         data = {
             'name': body.get('name','default'),
             'price': body.get('price','default'),
+            'category': body.get('category_id','default'),
         }
+        print(body.get('category_id','default'))
         serializer = ProductSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -36,3 +36,14 @@ class DeleteProduct(APIView):
 
         product.delete()
         return JsonResponse({'message': 'Product deleted successfully'}, status=204)
+    
+
+class GetAllDetailsProduct(APIView):
+
+    def get(self, request):
+        products = Product.objects.select_related('category').all()
+        for product in products:
+            print(f"Product: {product.name}, Category: {product.category.name}")
+        serializer = ProductSerializer(products, many=True)
+        # response
+        return JsonResponse(serializer.data, safe=False)
