@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import GetAllProduct, CreateProduct, DeleteProduct, GetAllDetailsProduct
+from .controllers import GetAllProduct, CreateProduct, DeleteProduct, GetAllDetailsProduct
 
 urlpatterns = [
     path("", GetAllProduct.as_view(), name="get-all-products"),

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import GetAllCategory,CreateCategory,DeleteCategory
+from .controllers import GetAllCategory,CreateCategory,DeleteCategory
 
 urlpatterns = [
     path("", GetAllCategory.as_view(), name="get-all-categories"),
