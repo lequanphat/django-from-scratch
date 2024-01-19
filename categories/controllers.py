@@ -2,10 +2,8 @@ from rest_framework.views import APIView
 from .models import Category
 from .serializers import CategorySerializer
 from django.http import JsonResponse
-import json
 
 class GetAllCategory(APIView):
-
     def get(self, request):
         categories = Category.objects.all()
         serializer = CategorySerializer(categories, many=True)
@@ -14,12 +12,7 @@ class GetAllCategory(APIView):
 
 class CreateCategory(APIView):
     def post(self, request):
-        body = json.loads(request.body.decode('utf-8'))
-        data = {
-            'name': body.get('name','default'),
-            'description': body.get('description','default'),
-        }
-        serializer = CategorySerializer(data=data)
+        serializer = CategorySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)

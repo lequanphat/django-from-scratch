@@ -14,14 +14,7 @@ class GetAllProduct(APIView):
 
 class CreateProduct(APIView):
     def post(self, request):
-        body = json.loads(request.body.decode('utf-8'))
-        data = {
-            'name': body.get('name','default'),
-            'price': body.get('price','default'),
-            'category': body.get('category_id','default'),
-        }
-        print(body.get('category_id','default'))
-        serializer = ProductSerializer(data=data)
+        serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)
