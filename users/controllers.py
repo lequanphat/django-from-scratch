@@ -2,9 +2,10 @@ from rest_framework.views import APIView
 from .models import User
 from .serializers import UserSerializer
 from django.http import JsonResponse
-
+from demo.permissions import IsAdminPermission
 class GetAllUsers(APIView):
-
+    permission_classes = [IsAdminPermission]
+    
     def get(self, request):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
